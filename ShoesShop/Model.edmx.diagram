@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3f9f8825171947958ffeaa5eb5198149" Name="Diagram1">
+        <EntityTypeShape EntityType="ShoesShopModel.Детали_заказа" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Заказы" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Категории" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Пользователи" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Поставщики" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Производители" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Пункты_выдачи" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Роли" Width="1.5" PointX="1.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Статусы" Width="1.5" PointX="0.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoesShopModel.Товары" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <AssociationConnector Association="ShoesShopModel.FK__Детали_за__ID_то__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Детали_за__Номер__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Заказы__ID_польз__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Заказы__Адрес_пу__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Заказы__Статус_з__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Товары__Категори__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Пользоват__Роль___300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Товары__Поставщи__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoesShopModel.FK__Товары__Производ__33D4B598" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
