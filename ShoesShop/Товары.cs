@@ -25,11 +25,11 @@ namespace ShoesShop
         public string Наименование_товара { get; set; }
         public string Единица_измерения { get; set; }
         public decimal Цена { get; set; }
-        public int Поставщик { get; set; }
-        public int Производитель { get; set; }
-        public int Категория_товара { get; set; }
-        public decimal Действующая_скидка { get; set; }
-        public int Колво_на_складе { get; set; }
+        public int ID_поставщика { get; set; }
+        public int ID_производителя { get; set; }
+        public int ID_категории { get; set; }
+        public Nullable<int> Действующая_скидка { get; set; }
+        public int Количество_на_складе { get; set; }
         public string Описание_товара { get; set; }
         public string Фото { get; set; }
         public Nullable<int> Скидка { get; set; }

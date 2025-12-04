@@ -12,10 +12,10 @@ namespace ShoesShop
     using System;
     using System.Collections.Generic;
     
-    public partial class Статусы
+    public partial class Статусы_заказа
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Статусы()
+        public Статусы_заказа()
         {
             this.Заказы = new HashSet<Заказы>();
         }

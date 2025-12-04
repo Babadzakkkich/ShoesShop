@@ -67,16 +67,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditOrderPage.xaml.cs">
+      <DependentUpon>EditOrderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditProductPage.xaml.cs">
+      <DependentUpon>EditProductPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OrdersPage.xaml.cs">
+      <DependentUpon>OrdersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ProductsPage.xaml.cs">
       <DependentUpon>ProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SelectProductsWindow.xaml.cs">
+      <DependentUpon>SelectProductsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Детали_заказа.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -102,7 +124,7 @@
     <Compile Include="Роли.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Статусы.cs">
+    <Compile Include="Статусы_заказа.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Товары.cs">
@@ -124,7 +146,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\EditOrderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditProductPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OrdersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ProductsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SelectProductsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,16 +172,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -190,6 +218,12 @@
     <Resource Include="Images\8.jpg" />
     <Resource Include="Images\9.jpg" />
     <Resource Include="Images\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dub.jpg" />
     <Content Include="Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model.Context.cs</LastGenOutput>
@@ -201,10 +235,6 @@
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

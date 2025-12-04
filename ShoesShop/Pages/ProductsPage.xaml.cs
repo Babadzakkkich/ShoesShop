@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace ShoesShop.Pages
@@ -16,8 +17,9 @@ namespace ShoesShop.Pages
         private MainWindow _mainWindow;
         private List<Товары> _allProducts;
         private List<Поставщики> _suppliers;
+        private bool _isAdmin = false;
+        private bool _isManager = false;
 
-        // Простые конвертеры
         public static readonly BooleanToVisibilityConverter BoolToVisibilityConverter = new BooleanToVisibilityConverter();
 
         public ProductsPage(MainWindow mainWindow)
@@ -38,21 +40,33 @@ namespace ShoesShop.Pages
             if (_mainWindow.CurrentUser != null)
             {
                 var role = _mainWindow.CurrentUser.Роли?.Роль;
+                _isAdmin = role == "Администратор";
+                _isManager = role == "Менеджер";
 
-                if (role == "Менеджер" || role == "Администратор")
+                if (_isManager || _isAdmin)
                 {
                     ControlPanel.Visibility = Visibility.Visible;
                     LoadSuppliers();
                     SetupFilters();
+
+                    // Показываем кнопку "Добавить товар" только для администратора
+                    AddProductButton.Visibility = _isAdmin ? Visibility.Visible : Visibility.Collapsed;
+
+                    // Показываем кнопку "Заказы" для менеджеров и администраторов
+                    OrdersButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     ControlPanel.Visibility = Visibility.Collapsed;
+                    AddProductButton.Visibility = Visibility.Collapsed;
+                    OrdersButton.Visibility = Visibility.Collapsed;
                 }
             }
             else
             {
                 ControlPanel.Visibility = Visibility.Collapsed;
+                AddProductButton.Visibility = Visibility.Collapsed;
+                OrdersButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -60,7 +74,7 @@ namespace ShoesShop.Pages
         {
             try
             {
-                using (var context = new Entities())
+                using (var context = new ShoesShopEntities())
                 {
                     _allProducts = context.Товары
                         .Include(t => t.Категории)
@@ -85,13 +99,14 @@ namespace ShoesShop.Pages
         {
             try
             {
-                using (var context = new Entities())
+                using (var context = new ShoesShopEntities())
                 {
                     _suppliers = context.Поставщики.ToList();
                     SupplierFilterComboBox.Items.Clear();
 
                     // Добавляем "Все поставщики"
-                    SupplierFilterComboBox.Items.Add(new Поставщики { ID = -1, Поставщик = "Все поставщики" });
+                    var allSuppliers = new Поставщики { ID = -1, Поставщик = "Все поставщики" };
+                    SupplierFilterComboBox.Items.Add(allSuppliers);
 
                     foreach (var supplier in _suppliers)
                     {
@@ -145,10 +160,10 @@ namespace ShoesShop.Pages
                 switch (SortComboBox.SelectedIndex)
                 {
                     case 1:
-                        filteredProducts = filteredProducts.OrderBy(p => p.Колво_на_складе);
+                        filteredProducts = filteredProducts.OrderBy(p => p.Количество_на_складе);
                         break;
                     case 2:
-                        filteredProducts = filteredProducts.OrderByDescending(p => p.Колво_на_складе);
+                        filteredProducts = filteredProducts.OrderByDescending(p => p.Количество_на_складе);
                         break;
                     default:
                         filteredProducts = filteredProducts.OrderBy(p => p.ID);
@@ -160,6 +175,42 @@ namespace ShoesShop.Pages
             ProductsItemsControl.ItemsSource = result;
 
             NoProductsText.Visibility = result.Any() ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void OrdersButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверяем, есть ли страница заказов
+            NavigationService.Navigate(new OrdersPage(_mainWindow));
+        }
+
+        private void ProductBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if ((_isAdmin || _isManager) && sender is Border border && border.Tag != null)
+            {
+                int productId = (int)border.Tag;
+                var product = _allProducts.FirstOrDefault(p => p.ID == productId);
+
+                if (product != null)
+                {
+                    if (_isAdmin)
+                    {
+                        // Переходим на страницу редактирования для администратора
+                        NavigationService.Navigate(new EditProductPage(_mainWindow, product));
+                    }
+                    else if (_isManager)
+                    {
+                        // Для менеджера показываем детали товара
+                        _mainWindow.ShowMessage($"Детали товара: {product.Наименование_товара}\n" +
+                                               $"Цена: {product.Цена:C}\n" +
+                                               $"Количество на складе: {product.Количество_на_складе}");
+                    }
+                }
+            }
+        }
+
+        private void AddProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new EditProductPage(_mainWindow));
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -187,13 +238,18 @@ namespace ShoesShop.Pages
                 _product = product;
             }
 
+            public int ID => _product.ID;
+
             // Прокси-свойства для прямого доступа
             public string Наименование_товара => _product.Наименование_товара;
             public string Описание_товара => _product.Описание_товара;
             public decimal Цена => _product.Цена;
             public string Единица_измерения => _product.Единица_измерения;
-            public int Колво_на_складе => _product.Колво_на_складе;
-            public decimal Действующая_скидка => _product.Действующая_скидка;
+            public int Количество_на_складе => _product.Количество_на_складе;
+            public int? Действующая_скидка => _product.Действующая_скидка;
+            public int? Скидка => _product.Скидка;
+            public string Артикул => _product.Артикул;
+            public string Фото => _product.Фото;
             public Категории Категории => _product.Категории;
             public Производители Производители => _product.Производители;
             public Поставщики Поставщики => _product.Поставщики;
@@ -256,28 +312,29 @@ namespace ShoesShop.Pages
                 {
                     if (HasDiscount)
                     {
-                        decimal discountedPrice = Цена * (1 - Действующая_скидка / 100);
+                        decimal discount = GetCurrentDiscount();
+                        decimal discountedPrice = Цена * (1 - discount / 100);
                         return discountedPrice.ToString("C", CultureInfo.CurrentCulture);
                     }
                     return string.Empty;
                 }
             }
 
-            public string FormattedDiscount => $"{Действующая_скидка}%";
+            public string FormattedDiscount => $"{GetCurrentDiscount()}%";
 
-            public bool HasDiscount => Действующая_скидка > 0;
+            public bool HasDiscount => GetCurrentDiscount() > 0;
 
-            public bool IsHighDiscount => Действующая_скидка > 15;
+            public bool IsHighDiscount => GetCurrentDiscount() > 15;
 
-            public bool IsOutOfStock => Колво_на_складе == 0;
+            public bool IsOutOfStock => Количество_на_складе == 0;
 
             public string StockStatus
             {
                 get
                 {
-                    if (Колво_на_складе == 0) return "Нет в наличии";
-                    if (Колво_на_складе < 10) return $"Мало: {Колво_на_складе}";
-                    return $"В наличии: {Колво_на_складе}";
+                    if (Количество_на_складе == 0) return "Нет в наличии";
+                    if (Количество_на_складе < 10) return $"Мало: {Количество_на_складе}";
+                    return $"В наличии: {Количество_на_складе}";
                 }
             }
 
@@ -285,10 +342,16 @@ namespace ShoesShop.Pages
             {
                 get
                 {
-                    if (Колво_на_складе == 0) return "Red";
-                    if (Колво_на_складе < 10) return "Orange";
+                    if (Количество_на_складе == 0) return "Red";
+                    if (Количество_на_складе < 10) return "Orange";
                     return "Green";
                 }
+            }
+
+            private decimal GetCurrentDiscount()
+            {
+                // Используем Скидка если есть, иначе Действующая_скидка
+                return Скидка ?? Действующая_скидка ?? 0;
             }
         }
     }

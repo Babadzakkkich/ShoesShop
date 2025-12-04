@@ -20,18 +20,18 @@ namespace ShoesShop
             this.Детали_заказа = new HashSet<Детали_заказа>();
         }
     
-        public int ID_заказа { get; set; }
+        public int ID { get; set; }
         public System.DateTime Дата_заказа { get; set; }
         public System.DateTime Дата_доставки { get; set; }
-        public int Адрес_пункта_выдачи { get; set; }
+        public int ID_пункта_выдачи { get; set; }
         public int ID_пользователя { get; set; }
         public int Код_для_получения { get; set; }
-        public int Статус_заказа { get; set; }
+        public int ID_статуса { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Детали_заказа> Детали_заказа { get; set; }
         public virtual Пользователи Пользователи { get; set; }
         public virtual Пункты_выдачи Пункты_выдачи { get; set; }
-        public virtual Статусы Статусы { get; set; }
+        public virtual Статусы_заказа Статусы_заказа { get; set; }
     }
 }

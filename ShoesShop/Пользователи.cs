@@ -21,7 +21,7 @@ namespace ShoesShop
         }
     
         public int ID { get; set; }
-        public int Роль_сотрудника { get; set; }
+        public int ID_роли { get; set; }
         public string ФИО { get; set; }
         public string Логин { get; set; }
         public string Пароль { get; set; }

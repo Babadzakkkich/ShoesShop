@@ -53,7 +53,7 @@ namespace ShoesShop.Pages
                 LoginButton.IsEnabled = false;
                 GuestButton.IsEnabled = false;
 
-                using (var context = new Entities())
+                using (var context = new ShoesShopEntities())
                 {
                     // Ищем пользователя в базе данных
                     var user = context.Пользователи

@@ -13,10 +13,10 @@ namespace ShoesShop
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Entities : DbContext
+    public partial class ShoesShopEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public ShoesShopEntities()
+            : base("name=ShoesShopEntities")
         {
         }
     
@@ -33,7 +33,7 @@ namespace ShoesShop
         public virtual DbSet<Производители> Производители { get; set; }
         public virtual DbSet<Пункты_выдачи> Пункты_выдачи { get; set; }
         public virtual DbSet<Роли> Роли { get; set; }
-        public virtual DbSet<Статусы> Статусы { get; set; }
+        public virtual DbSet<Статусы_заказа> Статусы_заказа { get; set; }
         public virtual DbSet<Товары> Товары { get; set; }
     }
 }

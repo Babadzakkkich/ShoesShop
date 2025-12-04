@@ -15,12 +15,12 @@ namespace ShoesShop
     public partial class Детали_заказа
     {
         public int ID { get; set; }
-        public int Номер_заказа { get; set; }
+        public int ID_заказа { get; set; }
         public int ID_товара { get; set; }
         public int Количество_товара { get; set; }
         public decimal Цена_на_момент_заказа { get; set; }
     
-        public virtual Товары Товары { get; set; }
         public virtual Заказы Заказы { get; set; }
+        public virtual Товары Товары { get; set; }
     }
 }
