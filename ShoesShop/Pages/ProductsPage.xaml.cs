@@ -320,6 +320,19 @@ namespace ShoesShop.Pages
                 }
             }
 
+            public decimal DiscountedPriceValue
+            {
+                get
+                {
+                    if (HasDiscount)
+                    {
+                        decimal discount = GetCurrentDiscount();
+                        return Цена * (1 - discount / 100);
+                    }
+                    return Цена;
+                }
+            }
+
             public string FormattedDiscount => $"{GetCurrentDiscount()}%";
 
             public bool HasDiscount => GetCurrentDiscount() > 0;

@@ -18,7 +18,7 @@ namespace ShoesShop
         public void ShowAuthPage()
         {
             MainFrame.Navigate(new AuthPage(this));
-            UserInfoPanel.Visibility = Visibility.Collapsed;
+            HideUserInfo();
             CurrentUser = null;
             UpdateBackButton();
         }
@@ -39,7 +39,7 @@ namespace ShoesShop
         public void LoginAsGuest()
         {
             CurrentUser = null;
-            UpdateUserInfo();
+            HideUserInfo();
             NavigateToMainPage();
 
             // Информационное сообщение для гостя
@@ -54,15 +54,22 @@ namespace ShoesShop
             if (CurrentUser != null)
             {
                 UserInfoPanel.Visibility = Visibility.Visible;
-                UsernameTextBlock.Text = CurrentUser.Логин;
+
+                // Используем ФИО вместо логина
+                UsernameTextBlock.Text = CurrentUser.ФИО;
                 RoleTextBlock.Text = CurrentUser.Роли?.Роль ?? "Неизвестно";
             }
             else
             {
-                UserInfoPanel.Visibility = Visibility.Collapsed;
-                UsernameTextBlock.Text = string.Empty;
-                RoleTextBlock.Text = string.Empty;
+                HideUserInfo();
             }
+        }
+
+        private void HideUserInfo()
+        {
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            UsernameTextBlock.Text = string.Empty;
+            RoleTextBlock.Text = string.Empty;
         }
 
         private void NavigateToMainPage()
@@ -93,6 +100,27 @@ namespace ShoesShop
                                   !(MainFrame.Content is AuthPage)
                                   ? Visibility.Visible
                                   : Visibility.Collapsed;
+        }
+
+        // Обработчик кнопки "Выйти"
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите выйти?",
+                                        "Выход из системы",
+                                        MessageBoxButton.YesNo,
+                                        MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                CurrentUser = null;
+                HideUserInfo();
+                ShowAuthPage();
+
+                MessageBox.Show("Вы успешно вышли из системы.",
+                              "Выход",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Information);
+            }
         }
 
         // Метод для показа информационных сообщений из других страниц
